@@ -9,7 +9,6 @@ const client = new Client({ intents: [IntentsBitField.Flags.Guilds] });
 
 // Environment variables
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
-
 const PRICES_CATEGORY_ID = process.env.PRICES_CATEGORY_ID;
 const BNB_CHANNEL_ID = process.env.BNB_CHANNEL_ID;
 const AFP_CHANNEL_ID = process.env.AFP_CHANNEL_ID;
