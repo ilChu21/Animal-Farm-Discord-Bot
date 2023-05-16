@@ -35,7 +35,7 @@ scheduleJob('*/5 * * * *', async () => {
 
     client.channels.cache
       .get(PRICES_CATEGORY_ID)
-      .setName(`▬【💲PRICES - ${currentUTCTime} UTC💲】▬`);
+      .setName(`▬【💲PRICES-${currentUTCTime} UTC💲】▬`);
 
     client.channels.cache
       .get(BNB_CHANNEL_ID)
