@@ -23,7 +23,7 @@ client.on('ready', (c) => {
   console.log(`✅ ${c.user.username} bot is online.`);
 
   client.user.setActivity({
-    name: 'Forex and IceSeeBoy',
+    name: 'YouTube',
     type: ActivityType.Streaming,
     url: 'https://www.youtube.com/watch?v=YhjgtvZ6SZg',
   });
