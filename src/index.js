@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
-import { Client, IntentsBitField } from 'discord.js';
+import { Client, IntentsBitField, ActivityType } from 'discord.js';
 import { scheduleJob } from 'node-schedule';
 import { createProvider } from '../providers/providers.js';
 import { getBnbPrice, getAfpPrice, getAfdPrice } from '../functions/prices.js';
@@ -21,6 +21,12 @@ const numForCur = Intl.NumberFormat('en-US', {
 
 client.on('ready', (c) => {
   console.log(`✅ ${c.user.username} bot is online.`);
+
+  client.user.setActivity({
+    name: 'Forex and IceSeeBoy',
+    type: ActivityType.Streaming,
+    url: 'https://www.youtube.com/watch?v=YhjgtvZ6SZg',
+  });
 });
 
 scheduleJob('*/5 * * * *', async () => {
