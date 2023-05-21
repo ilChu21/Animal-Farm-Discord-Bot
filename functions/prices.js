@@ -1,9 +1,21 @@
 import { ethers } from 'ethers';
 import { MAT_ADDRESS, MAT_ABI } from '../contracts/mat_contract.js';
 import { Get_Pcs_V2_Price } from './pcs_v2_router_functions.js';
-import { WBNB_ADDRESS } from '../contracts/wbnb_contract.js';
-import { AFP_ADDRESS } from '../contracts/afp_contract.js';
-import { AFD_ADDRESS } from '../contracts/afd_contract.js';
+import {
+  BUSD_ADDRESS,
+  AFP_ADDRESS,
+  AFD_ADDRESS,
+} from '../contracts/token_contracts.js';
+
+import {
+  calculateLpPrice,
+  afpBusdLiquidity,
+  afdBusdLiquidity,
+  afdWbnbLiquidity,
+  circulatingAfpBusd,
+  circulatingAfdBusd,
+  circulatingAfdWbnb,
+} from '../functions/liquidity.js';
 
 export async function getBnbPrice(provider) {
   try {
@@ -14,10 +26,17 @@ export async function getBnbPrice(provider) {
   }
 }
 
+export async function getBusdPrice(provider) {
+  try {
+    return await Get_Pcs_V2_Price(BUSD_ADDRESS, provider);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function getAfpPrice(provider) {
   try {
-    const afpWbnb = await Get_Pcs_V2_Price(AFP_ADDRESS, WBNB_ADDRESS, provider);
-    return afpWbnb * (await getBnbPrice(provider));
+    return await Get_Pcs_V2_Price(AFP_ADDRESS, provider);
   } catch (error) {
     console.error(error);
   }
@@ -25,8 +44,40 @@ export async function getAfpPrice(provider) {
 
 export async function getAfdPrice(provider) {
   try {
-    const afdWbnb = await Get_Pcs_V2_Price(AFD_ADDRESS, WBNB_ADDRESS, provider);
-    return afdWbnb * (await getBnbPrice(provider));
+    return await Get_Pcs_V2_Price(AFD_ADDRESS, provider);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getAfpBusdPrice(provider) {
+  try {
+    return await calculateLpPrice(
+      await afpBusdLiquidity(provider),
+      await circulatingAfpBusd(provider)
+    );
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getAfdBusdPrice(provider) {
+  try {
+    return await calculateLpPrice(
+      await afdBusdLiquidity(provider),
+      await circulatingAfdBusd(provider)
+    );
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getAfdWbnbPrice(provider) {
+  try {
+    return await calculateLpPrice(
+      await afdWbnbLiquidity(provider),
+      await circulatingAfdWbnb(provider)
+    );
   } catch (error) {
     console.error(error);
   }
