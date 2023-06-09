@@ -65,7 +65,7 @@ scheduleJob('*/5 * * * *', async () => {
     const currentUTCTime = getNowUtc();
     const provider = createProvider();
 
-    client.channels.cache
+    await client.channels.cache
       .get(PRICES_CATEGORY_ID)
       .setName(`▬【💲PRICES-${currentUTCTime} UTC💲】▬`);
 
@@ -73,7 +73,7 @@ scheduleJob('*/5 * * * *', async () => {
       const price = await channel.fn(provider);
       const formattedPrice = numForCur.format(price);
 
-      client.channels.cache
+      await client.channels.cache
         .get(channel.id)
         .setName(`${channel.prefix}: ${formattedPrice}`);
     }
