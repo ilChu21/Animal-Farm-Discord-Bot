@@ -65,18 +65,12 @@ scheduleJob('*/5 * * * *', async () => {
     const currentUTCTime = getNowUtc();
     const provider = createProvider();
 
-    const promises = channels.map(async (channel) => {
-      return channel.fn(provider);
-    });
-
-    const prices = await Promise.all(promises);
-
-    channels.forEach((channel, index) => {
-      const price = prices[index];
+    for (const channel of channels) {
+      const price = await channel.fn(provider);
       const formattedPrice = numForCur.format(price);
       const channelToUpdate = client.channels.cache.get(channel.id);
-      channelToUpdate.setName(`${channel.prefix}: ${formattedPrice}`);
-    });
+      await channelToUpdate.setName(`${channel.prefix}: ${formattedPrice}`);
+    }
 
     const category = client.channels.cache.get(PRICES_CATEGORY_ID);
     await category.setName(`▬【💲PRICES-${currentUTCTime} UTC💲】▬`);
